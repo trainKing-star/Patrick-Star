@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block style %}
+#d2{
+    display:inline-block;
+    width: 100px;
+    height: 100px;
+    border: 1px solid blue;
+    border-radius: 100%;
+    overflow: hidden;
+}
+.judge h3{
+  width: 100%;
+  background-color: #ADD8E6;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration:none;
+}
+{% endblock style %}
+{% block content %}
+		<div style="float:left"  id="d2">
+                <img src="data:image/png;base64,{{ form.photo }}" alt="无图片">
+	    </div>
+        <div style="display:inline-block">
+		    <h1>{{ form.username }} </h1>
+	    </div>
+    	<div class="judge">
+            <h3><a style="text-decoration: none;color: white;" href="{{ url_for('update',note_id=form.id) }}">修改资料</a></h3>
+	    </div>
+	    <div class="judge">
+            <h3><a style="text-decoration: none;color: white;" href="{{ url_for('upload',note_id=form.id) }}">上传视频</a></h3>
+	    </div>
+        <div class="judge">
+	    	<h3>我的视频</h3>
+             {% if video %}
+                {% for b in video %}
+                <div style="display: inline-block">
+                <div>
+                    <video width="320" height="240" controls poster>
+                        <source src="{{ url_for('get_file',filename=b.video) }}" type="video/mp4">
+                        <source src="{{ url_for('get_file',filename=b.video) }}" type="video/ogg">
+                        <source src="{{ url_for('get_file',filename=b.video) }}" type="video/webm">
+                    </video>
+                </div>
+                <div>
+                    <a style="text-decoration:none" href="{{ url_for('user',user_id=b.note_id) }}">{{ b.title }}</a>
+                </div>
+                </div>
+                {% endfor %}
+             {% endif %}
+	    </div>
+{% endblock content %}
+	

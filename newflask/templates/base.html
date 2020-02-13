@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>{% block title %}JOJO奇妙视频{% endblock %}</title>
+</head>
+<style type="text/css" media="screen">
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.header {
+  background-color: #f1f1f1;
+  padding: 10px;
+  text-align:center;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #336699;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: #ADD8E6;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+a.active {
+    background-color: #000000;
+    color: white;
+}
+#d1{
+    width: 50px;
+    height: 50px;
+    border: 1px solid blue;
+    border-radius: 100%;
+    overflow: hidden;
+}
+img {
+    max-height: 100%;
+}
+.footer {
+  background-color: #f1f1f1;
+  padding: 10px;
+  text-align: center;
+}
+	{% block style %}{% endblock style %}
+</style>
+<body>
+	<div class="topnav">
+		<a class="active" href="{{url_for('index')}}">首页</a>
+    {% if 'author_id' in session %}
+        <a href="{{ url_for('manage') }}">管理模式</a>
+    {% else %}
+		<a href="{{ url_for('author') }}">管理员</a>
+    {% endif %}
+        {% if 'login_in' in session %}
+        <a style="float:right" href="{{ url_for('login_out') }}">登出</a>
+        <a style="float:right" href="{{ url_for('user',user_id=form.id) }}">欢迎你,{{ form.username }}!</a>
+        <div style="float:right" id="d1">
+        {% if form.photo %}
+		    <img src="data:image/png;base64,{{ form.photo}}" alt="无图片">
+        {% else %}
+        {% endif %}
+	    </div>
+        {% else %}
+		<a style="float:right" href="{{ url_for('register') }}">注册</a>
+		<a style="float:right" href="{{ url_for('login') }}">登录</a>
+        {% endif %}
+	</div>
+    <div class="header">
+        <h1>猛虎下山</h1>
+    </div>
+    {% for message in get_flashed_messages() %}
+    {{ message }}
+    {% endfor %}
+	{% block content %}
+	{% endblock content %}
+    <div class="header">
+	    <h1>猛虎上山</h1>
+	</div>
+	<div class="footer">
+		<p>底部区域</p>
+	</div>
+</body>
+</html>
