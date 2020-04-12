@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="{{ url_for('chat.login') }}">登录</a>
+<a href="{{ url_for('chat.register') }}">注册</a>
+{% if users %}
+{% for user in users %}
+<div>{{ user.username }}</div>
+{% endfor %}
+{% endif %}
+</body>
+</html>
