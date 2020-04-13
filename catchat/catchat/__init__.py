@@ -25,7 +25,7 @@ def create_app(config_name=None):
     app.config['MAIL_DEFAULT_SENDER'] = os.getenv('聊天室管理','1193299044@qq.com')
     register_extensions(app)
     register_blueprints(app)
-    register_commands(app)
+    #register_commands(app)
 
     return app
 
