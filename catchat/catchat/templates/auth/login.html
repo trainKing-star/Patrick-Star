@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>access</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='access_css.css')}}">
+</head>
+<body>
+    <div id="menu_block">
+        <img id="img1" src="/static/picture/img1.png" height="65" width="62"/>
+    </div>
+    <h1><a href="{{ url_for('chat.register') }}">注册</a></h1>
+    <div id="top">
+        <input placeholder="     Search url here">
+        <button>search</button>
+    </div>
+    <div id="sign_in" >
+        <form class="sign_in" action="{{ url_for('chat.login') }}" method="post" >
+        <div class="input">
+            <span>Username:</span>
+            <input type="text" name="username">
+        </div>
+        <div class="input">
+            <span>Password:</span>
+            <input type="password" name="password">
+        </div>
+        <div id="btn_sign"><button id="btn_sign_in">sign in</button></div>
+        <span id="way">其他登陆方式</span>
+        <img id="img11" src="/static/picture/img11.jpeg" height="54" width="52"/>
+        <img id="img12" src="/static/picture/img12.jpeg" height="50" width="50"/>
+        <img id="img13" src="/static/picture/img13.jpeg" height="52" width="55"/>
+        </form>
+    </div>
+</body>
+</html>
