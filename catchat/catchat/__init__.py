@@ -5,7 +5,7 @@ from catchat.blueprints.auth import  auth_bp
 from catchat.blueprints.chat import  chat_bp
 from catchat.blueprints.oauth import  oauth_bp
 from catchat.blueprints.api import api_bp
-from catchat.extensions import  db,login_manager ,socketio,mail,Api
+from catchat.extensions import  db,login_manager,mail,Api#,socketio
 import click
 import os
 
@@ -32,7 +32,7 @@ def create_app(config_name=None):
 def register_extensions(app):
     db.init_app(app)
     login_manager.init_app(app)
-    socketio.init_app(app)
+    #socketio.init_app(app)
     mail.init_app(app)
     Api.init_app(app)
 
@@ -43,7 +43,7 @@ def register_blueprints(app):
     app.register_blueprint(oauth_bp,url_prefix='/oauth')
     app.register_blueprint(api_bp,url_prefix='/api')
 
-def register_commands(app):
+'''def register_commands(app):
     @app.cli.command()
     @click.option('--count',default=20,help='生成用户数据，默认20条')
     def forge(count):
@@ -63,4 +63,5 @@ def register_commands(app):
 
         db.session.commit()
         click.echo('Create %d faker user' % count)
+        '''''
 

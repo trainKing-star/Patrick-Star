@@ -9,7 +9,6 @@ import os
 
 auth_bp = Blueprint('auth',__name__)
 
-
 @auth_bp.route('/')
 def index():
     user = User.query.get(current_user.id)

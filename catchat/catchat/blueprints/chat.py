@@ -1,6 +1,6 @@
 from flask import Blueprint,render_template,redirect,url_for,request,flash
 from flask_socketio import emit
-from catchat.extensions import  socketio,mail,db
+from catchat.extensions import mail,db#,socketio
 from catchat.models import  User
 from flask_login import login_user,logout_user,login_required
 

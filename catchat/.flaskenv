@@ -1,3 +1,3 @@
 FLASK_APP=catchat
 FLASK_ENV=development
-AVATARS_SAVE_PATH=E:\catchat\catchat\static\picture
+AVATARS_SAVE_PATH=E:\catce：hat\catchat\static\picture
