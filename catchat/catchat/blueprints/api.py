@@ -1,13 +1,41 @@
-from flask import Blueprint,request,render_template,redirect,flash,url_for,current_app,jsonify
+from flask import session,g,Blueprint,request,render_template,redirect,flash,url_for,current_app,jsonify
 from catchat.extensions import  db,login_manager,send_mail,Api
 from catchat.models  import User,Room,Messager
 from flask_login import current_user,login_user,login_required,logout_user
 from flask_dropzone import random_filename
 from flask_restful import Resource,fields,marshal_with,reqparse
+from flask_httpauth import HTTPBasicAuth
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 import os
 
 
 api_bp = Blueprint('api',__name__)
+auth = HTTPBasicAuth()
+serializer = Serializer('secret key here',expires_in=300)
+
+@auth.verify_password
+def verify_password(username,password):
+    try:
+        data=serializer.loads(g.token)
+    except:
+        data=None
+    if data:
+        user = User.query.get(data['id'])
+    else:
+        user = None
+    if not user:
+        user = User.query.filter(User.username==username).first()
+        if not user or user.password_hash != password:
+            return False
+        g.token = serializer.dumps({'id':user.id})
+        return True
+    return True
+
+
+@api_bp.route('/index')
+@auth.login_required
+def index():
+    return 'login success'
 
 def user_resource_message(messager):
     return {
@@ -80,6 +108,7 @@ class User_data(Resource):
             user.email_hash = arg.email_hash
         if arg.country:
             user.country = arg.country
+        db.session.commit()
         return jsonify(user_resource(user))
 
 Api.add_resource(User_data,'/api/update/user/<int:userid>','/api/create/user','/api/user/<int:userid>',methods=['GET','POST','PUT'])
@@ -141,6 +170,7 @@ class Room_data(Resource):
             room.description = args.description
         if args.author_id:
             room.author_id = args.author_id
+        db.session.commit()
         return jsonify(room_resource(room))
 
 Api.add_resource(Room_data,'/api/room/<int:roomid>','/api/create/room','/api/update/room/<int:roomid>',methods=['GET','POST','PUT'])
@@ -154,7 +184,7 @@ def messager_resource(messager):
     return {
     'id':messager.id,
     'body':messager.body,
-    'timestamp':messager.body,
+    'timestamp':messager.timestamp,
     'auth_id':{
         'id':messager.author.id,
         'username':messager.author.username
@@ -183,8 +213,12 @@ class Message_data(Resource):
         messager = Messager(body=args.body)
         if args.room_id:
             messager.room_id = args.room_id
+        else:
+            return 'no room_id'
         if args.auth_id:
             messager.auth_id = args.auth_id
+        else:
+            return 'no auth_id'
         db.session.add(messager)
         db.session.commit()
         return jsonify(messager_resource(messager))
@@ -196,7 +230,15 @@ class Message_data(Resource):
         args = message_post_parser.parse_args()
         if args.body:
             messager.body = args.body
-            db.session.commit()
+        if args.auth_id:
+            messager.auth_id = args.aut_id
+        else:
+            return 'no auth_id'
+        if args.room_id:
+            messager.room_id =args.room_id
+        else:
+            return 'no room_id'
+        db.session.commit()
         return jsonify(messager_resource(messager))
 
 

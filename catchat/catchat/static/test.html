@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="vue.js"></script>
+</head>
+<style>
+    span {
+        background: hotpink;
+        display: inline-block;
+        padding: 10px;
+        color: #fff;
+        margin: 10px 0;
+    }
+
+    .changeColor span {
+        background: green;
+    }
+
+    .changeLength span:after {
+        content: "length+";
+        margin-left: 10px;
+    }
+</style>
+<body>
+<div id="vue-app">
+    <div id="sign_inn" @click="sign_in">Sign in</div>
+    <div id="sign_up" @click="sign_up">Sign up</div>
+    <div><div><img @click="search=!search" id="img8"  src="../imgs/img8.JPG" height="37" width="39"/></div></div>
+    <div id="search_block" v-show="search">
+        <div id="search">
+            <input placeholder="Search this chat">
+            <span>
+                <img id="img17" src="../imgs/img17.jpg" height="34" width="28"/>
+            </span>
+        </div>
+    </div>
+    <button >111</button>
+
+    <img  @click="share"  src="imgs/img1.png" height="65" width="71"/>
+    <h2>示例1</h2>
+    <div v-bind:class="{changeColor:changeC}" v-on:click="changeC=!changeC">
+        <span>示例一</span>
+    </div>
+    <h2>示例2</h2>
+    <button v-on:click="changeC=!changeC">color</button>
+    <button v-on:click="changeL=!changeL">length</button>
+    <div v-bind:class="compClasses">
+        <span>示例二</span>
+    </div>
+    <h2>v-if条件</h2>
+    <button v-on:click="error=!error">错误信息</button>
+    <button v-on:click="success=!success">成功信息</button>
+    <p v-show="error">错误404</p>
+    <p v-show="success">成功200</p>
+    <h2>v-for 循环</h2>
+    <b>names1</b>
+    <ul>
+        <li v-for="name in names1">{{name}}</li>
+    </ul>
+    <b>names2</b>
+    <ul>
+        <li v-for="name in names2">姓名:{{name.name}},年龄:{{name.age}}</li>
+    </ul>
+</div>
+</body>
+</html>
+<script>
+    new Vue({
+        el: "#vue-app",
+        data: {
+            search:false,
+            changeC: false,
+            changeL: false,
+            error: false,
+            success: false,
+            names1: ["old monster", "zhangsan", "lisi", "wangwu"],
+            names2: [{
+                name: "xiaohong",
+                age: 18
+            },
+                {
+                    name: "xiaoming",
+                    age: 22
+                },
+                {
+                    name: "laowang",
+                    age: 44
+                }
+            ]
+        },
+        methods: {
+            share:function(){
+                console.log(1111)
+            },
+            sign_in:function () {
+                console.log(11111)
+                // let form1=document.getElementsByClassName("sign_up");
+                let sign_inn=document.getElementById("sign_inn");
+                // form1.style.display="block";
+                sign_inn.style.border='1px solid black';
+                let sign_up=document.getElementById("sign_up");
+                sign_up.style.display="none";
+            },
+            sign_up:function () {
+                // let form2=document.getElementsByClassName("sign_in");
+
+                // form2.style.display=block;
+                //
+            },
+        },
+        computed: {
+            compClasses: function() {
+                return {
+                    changeColor: this.changeC,
+                    changeLength: this.changeL
+                };
+            }
+        }
+    });
+</script>

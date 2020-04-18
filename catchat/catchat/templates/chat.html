@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>chat</title>
+    <link rel="stylesheet" href="/static/chat/chat_css.css">
+    <script src="/static/vue.js"></script>
+</head>
+<body>
+    <div id="menu_block">
+        <div id="menu">
+            <img id="img1" src="/static/imgs/img1.png" height="65" width="62"/>
+            <img id="img19" src="/static/imgs/img19.jpg" height="35" width="35"/>
+            <img id="img4" src="/static/imgs/img4.png" height="50" width="30"/>
+            <img id="img3" src="/static/imgs/img3.png" height="30" width="30"/>
+            <img id="img2" src="/static/imgs/img2.png" height="30" width="40"/>
+        </div>
+    </div>
+
+    <div id="vue-app">
+    <div id="right">
+    <div id="chat_name_block">
+        <div id="chat_name">
+            <div>{{ room.roomname }}</div>
+            <img @click="search=!search" id="img8" src="/static/imgs/img8.JPG" height="37" width="39"/>
+            <img @click="share" id="img9" src="/static/imgs/img9.JPG" height="27" width="36"/>
+            <label for="checkbox">
+                <img id="img10" src="/static/imgs/img10.JPG" height="34" width="26"/>
+            </label>
+            <input id="checkbox" type="checkbox">
+            <div id="checked_menu">
+                <p>Mute</p>
+                <label for="Mute_button">
+                    <img @click="mute" id="img15" src="/static/imgs/img15.png" height="35" width="35"/>
+                </label>
+                <input type="button" id="Mute_button">
+                <p>Delete</p>
+                <label for="Delete_button">
+                    <img id="img14" src="/static/imgs/img14.png" height="38" width="32"/>
+                </label>
+                <input type="button" id="Delete_button">
+            </div>
+        </div>
+    </div>
+    <div id="search_block" v-show="search">
+        <div id="search">
+            <input placeholder="Search this chat">
+            <span>
+                <img id="img17" src="/static/imgs/img17.jpg" height="34" width="28"/>
+            </span>
+        </div>
+    </div>
+
+    <div id="chat_box">
+        <div id="input_box_block">
+            <div id="input_box">
+                <input placeholder="Type your message...">
+                <img id="img5" src="/static/imgs/img5.JPG" height="40" width="42"/>
+                <img id="img7" src="/static/imgs/img7.JPG" height="36" width="39"/>
+                <img id="img6" src="/static/imgs/img6.JPG" height="55" width="55"/>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div id="share_page_block">
+        <div id="share_page">
+            <div class="top_menu_block">
+                <div class="top_menu">
+                    <img @click="retract" class="img16" src="/static/imgs/img16.png" height="44" width="40"/>
+                </div>
+            </div>
+            <div class="name_icon">
+                <h2>{{ room.roomname }}</h2>
+            </div>
+            <div id="introduction">
+                <p>{{ room.description }}</p>
+            </div>
+            <div id="list">
+                <ul id="share_menu">
+                    <li>QQ<img id="img12" src="/static/imgs/img12.jpeg" height="20" width="20"/></li>
+                    <li>微信<img id="img13" src="/static/imgs/img13.jpeg" height="20" width="22"/></li>
+                    <li>Github<img id="img11" src="/static/imgs/img11.jpeg" height="22" width="20"/></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+        <div id="mute_page_block">
+            <div id="mute_page">
+                <div class="top_menu_block">
+                    <div class="top_menu">
+                        <img @click="pack" class="img16" src="../static/imgs/img16.png" height="44" width="40"/>
+                    </div>
+                </div>
+                <div id="name_icon">
+                    <h2>{{ room.roomname }}</h2>
+                </div>
+                <form class="list">
+                    <span>Photo</span>
+                    <div id="photo">
+                        <div id="img18">
+                            <img src="../static/imgs/img18.png" height="38" width="46"/>
+                        </div>
+                        <span class="photo1">You can upload jpg,gif or png files.</span><br>
+                        <span class="photo2">
+            Max files size 3mb.</span>
+                    </div>
+                    <span>Name</span>
+                    <div id="name">
+                        <input placeholder="Group Name">
+                    </div>
+                    <span>Topic(optional)</span>
+                    <div id="topic">
+                        <input placeholder="Group Topic">
+                    </div>
+                    <span>Description</span>
+                    <div id="description">
+                        <input placeholder="Group Description">
+                    </div><br>
+                    <button id="btn">OK</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    new Vue({
+        el: "#vue-app",
+        data: {
+             search: false,
+            // error: false,
+            // success: false
+        },
+        methods: {
+            share:function(){
+                let right=document.getElementById("right");
+                right.style.width="876px";
+                let share_page_block=document.getElementById("share_page_block");
+                share_page_block.style.display="block";
+            },
+            mute:function () {
+                right.style.width="876px";
+                let mute_page_block=document.getElementById("mute_page_block");
+                mute_page_block.style.display="block";
+            },
+            pack:function () {
+                right.style.width="1252px";
+                mute_page_block.style.display="none";
+            },
+            retract:function () {
+                right.style.width="1252px";
+                share_page_block.style.display="none";
+            },
+
+        },
+        computed: {
+            // compClasses: function(){
+            //     return {
+            //     changeColor: this.changeC,
+            //     changeLength: this.changeL
+            //     };
+            // }
+        }
+    });
+</script>
+

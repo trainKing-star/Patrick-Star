@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>access</title>
+    <link rel="stylesheet" href="static/access/access_css.css">
+    <script src="static/vue.js"></script>
+</head>
+<body>
+    <div id="menu_block">
+        <img id="img1" src="static/imgs/img1.png" height="65" width="62"/>
+    </div>
+    <div id="vue-app">
+    <div id="top">
+        <div id="sign_inn" @click="sign_in">Sign in</div>
+        <div id="sign_up" @click="sign_up">Sign up</div>
+        <input placeholder="     Search url here">
+        <button id="btn">search</button>
+    </div>
+    <div id="sign_in" >
+        <div id="form1">
+        <form class="sign_up" action="{{ url_for('chat.register') }}" method="post" name="">
+        <div class="input">
+            <span>Username:</span>
+            <input type="text" name="username" >
+        </div>
+        <div class="input">
+            <span>Password:</span>
+            <input type="password" name="password_hash">
+        </div>
+        <div class="input">
+            <span>Password Again:</span>
+            <input type="password" name="repeatpassword">
+        </div>
+        <div class="input">
+            <span>Telephone:</span>
+            <input type="tel" name="telephone">
+        </div>
+        <div class="input">
+            <span>E-mail:</span>
+            <input type="email" name="email_hash">
+        </div>
+        <div class="input">
+            <span>Country:</span>
+            <input type="text" name="country">
+        </div>
+        <div class="btn_sign"><button class="btn_sign_in">sign up</button></div>
+        <span class="way">其他注册方式</span>
+        <img class="img11" src="static/imgs/img11.jpeg" height="54" width="52"/>
+        <img class="img12" src="static/imgs/img12.jpeg" height="50" width="50"/>
+        <img class="img13" src="static/imgs/img13.jpeg" height="52" width="55"/>
+        </form>
+        </div>
+        <div id="form2">
+        <form class="sign_in" action="{{ url_for('chat.login') }}" method="post" name="">
+            <div class="input">
+                <span>Username:</span>
+                <input type="text" name="username">
+            </div>
+            <div class="input">
+                <span>Password:</span>
+                <input type="password" name="password_hash">
+            </div>
+            <div class="btn_sign"><button class="btn_sign_in">sign up</button></div>
+            <span class="way">其他登录方式</span>
+            <img class="img11" src="static/imgs/img11.jpeg" height="54" width="52"/>
+            <img class="img12" src="static/imgs/img12.jpeg" height="50" width="50"/>
+            <img class="img13" src="static/imgs/img13.jpeg" height="52" width="55"/>
+        </form>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
+<script>
+    new Vue({
+        el: "#vue-app",
+        data: {
+
+        },
+        methods: {
+            sign_in:function () {
+                let form1=document.getElementById("form1");
+                let sign_inn=document.getElementById("sign_inn");
+                let form2=document.getElementById("form2");
+                let sign_up=document.getElementById("sign_up");
+                sign_inn.style.border='1px solid black';
+                sign_up.style.border="none";
+                form1.style.display="block";
+                form2.style.display="none";
+            },
+            sign_up:function () {
+                sign_up.style.border='1px solid black';
+                sign_inn.style.border="none";
+                form2.style.display="block";
+                form1.style.display="none";
+            },
+        },
+        computed: {
+
+        }
+    });
+</script>
