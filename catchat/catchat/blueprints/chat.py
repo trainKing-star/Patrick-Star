@@ -1,8 +1,8 @@
-from flask import Blueprint,render_template,redirect,url_for,request,flash
-from flask_socketio import emit
+from flask import Blueprint,render_template,redirect,url_for,request,flash,session
+from flask_socketio import emit,join_room,leave_room,send
 from catchat.extensions import mail,db,socketio
 from catchat.models import  User,Room
-from flask_login import login_user,logout_user,login_required
+from flask_login import current_user,login_user,logout_user,login_required
 
 chat_bp = Blueprint('chat',__name__)
 
@@ -50,6 +50,7 @@ def login():
 @chat_bp.route('/chatroom/<int:roomid>',methods=['GET','POST'])
 @login_required
 def chatroom(roomid):
+    session['room']=roomid
     room =Room.query.get(roomid)
     return render_template('chat.html',room=room)
 
@@ -61,7 +62,24 @@ def logout():
     return redirect(url_for('chat.login'))
 
 
+@socketio.on('message')
+def message(data):
+    print(session['room'])
+    emit('message',{'data':data},room=session['room'])
 
+@socketio.on('connect')
+def connect():
+    emit('message',{'data':'连接成功'})
+
+@socketio.on('join')
+def join():
+    join_room(session['room'])
+    emit('message',{'data':current_user.username + '进入了房间'},room=session['room'])
+
+@socketio.on('leave')
+def leave():
+    leave_room(session['room'])
+    emit('message', {'data': current_user.username + '离开了房间'}, room=session['room'])
 
 
 

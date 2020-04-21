@@ -5,12 +5,39 @@
     <title>chat</title>
     <link rel="stylesheet" href="/static/chat/chat_css.css">
     <script src="/static/vue.js"></script>
+     <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdn.bootcss.com/socket.io/1.5.1/socket.io.min.js"></script>
+    <script>
+    var socket = io.connect('http://127.0.0.1:5000');
+    socket.on('message',function(res) {
+        var s = res.data;
+        if(s) {
+            $("#s").append(s).append('<br/>');
+        }
+    });
+
+    socket.on('connect',function() {
+       socket.emit('join');
+    });
+
+    socket.on('disconnect',function() {
+        socket.emit('leave');
+    });
+
+    function myFunction(event){
+	if(event.which === 13) {
+	    var message=document.getElementById("demo");
+		socket.emit('message', message.value);
+	    message.value='';
+	}
+}
+    </script>
 </head>
 <body>
     <div id="menu_block">
         <div id="menu">
             <img id="img1" src="/static/imgs/img1.png" height="65" width="62"/>
-            <img id="img19" src="/static/imgs/img19.jpg" height="35" width="35"/>
+            <img id="img19" src="/static/imgs/img19.png" height="35" width="35"/>
             <img id="img4" src="/static/imgs/img4.png" height="50" width="30"/>
             <img id="img3" src="/static/imgs/img3.png" height="30" width="30"/>
             <img id="img2" src="/static/imgs/img2.png" height="30" width="40"/>
@@ -22,10 +49,10 @@
     <div id="chat_name_block">
         <div id="chat_name">
             <div>{{ room.roomname }}</div>
-            <img @click="search=!search" id="img8" src="/static/imgs/img8.JPG" height="37" width="39"/>
-            <img @click="share" id="img9" src="/static/imgs/img9.JPG" height="27" width="36"/>
+            <img @click="search=!search" id="img8" src="/static/imgs/img8.png" height="37" width="39"/>
+            <img @click="share" id="img9" src="/static/imgs/img9.png" height="27" width="36"/>
             <label for="checkbox">
-                <img id="img10" src="/static/imgs/img10.JPG" height="34" width="26"/>
+                <img id="img10" src="/static/imgs/img10.png" height="34" width="26"/>
             </label>
             <input id="checkbox" type="checkbox">
             <div id="checked_menu">
@@ -46,18 +73,19 @@
         <div id="search">
             <input placeholder="Search this chat">
             <span>
-                <img id="img17" src="/static/imgs/img17.jpg" height="34" width="28"/>
+                <img id="img17" src="/static/imgs/img17.png" height="34" width="28"/>
             </span>
         </div>
     </div>
 
     <div id="chat_box">
+        <div id="s"></div>
         <div id="input_box_block">
             <div id="input_box">
-                <input placeholder="Type your message...">
-                <img id="img5" src="/static/imgs/img5.JPG" height="40" width="42"/>
-                <img id="img7" src="/static/imgs/img7.JPG" height="36" width="39"/>
-                <img id="img6" src="/static/imgs/img6.JPG" height="55" width="55"/>
+                <input type="text" id="demo" placeholder="Type your message..." onkeypress="myFunction(event)">
+                <img id="img5" src="/static/imgs/img5.png" height="40" width="42"/>
+                <img id="img7" src="/static/imgs/img7.png" height="36" width="39"/>
+                <img id="img6" src="/static/imgs/img6.png" height="55" width="55"/>
             </div>
         </div>
     </div>
@@ -74,13 +102,13 @@
                 <h2>{{ room.roomname }}</h2>
             </div>
             <div id="introduction">
-                <p>{{ room.description }}</p>
+                <p>{{ room.room_url }}</p>
             </div>
             <div id="list">
                 <ul id="share_menu">
-                    <li>QQ<img id="img12" src="/static/imgs/img12.jpeg" height="20" width="20"/></li>
-                    <li>微信<img id="img13" src="/static/imgs/img13.jpeg" height="20" width="22"/></li>
-                    <li>Github<img id="img11" src="/static/imgs/img11.jpeg" height="22" width="20"/></li>
+                    <li>QQ<img id="img12" src="/static/imgs/img12.png" height="20" width="20"/></li>
+                    <li>微信<img id="img13" src="/static/imgs/img13.png" height="20" width="22"/></li>
+                    <li>Github<img id="img11" src="/static/imgs/img11.png" height="22" width="20"/></li>
                 </ul>
             </div>
         </div>
