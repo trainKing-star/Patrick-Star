@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>chat</title>
+    <link rel="stylesheet" href="/static/chat/chat_css.css">
+    <script src="/static/vue.js"></script>
+     <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdn.bootcss.com/socket.io/1.5.1/socket.io.min.js"></script>
+</head>
+<body>
+<div id="s"></div>
+    <script>
+    var socket = io.connect('http://127.0.0.1:5000');
+    socket.on('send_message',function(res) {
+        var s = res.message;
+        if(s) {
+            $("#s").append(s).append('<br/>');
+        }
+    });
+
+    socket.on('connect',function() {
+       socket.emit('join');
+    });
+
+    socket.on('disconnect',function() {
+        socket.emit('leave');
+    });
+
+    socket.on('get_username',function(res) {
+                var s = res.username;
+        if(s) {
+            $("#s").append(s).append('<br/>');
+        }
+    });
+
+    function myFunction(event){
+	if(event.which === 13) {
+	    var message=document.getElementById("demo");
+		socket.emit('send_message', message.value);
+	    message.value='';
+	}
+}
+    </script>
+<input type="text" id="demo" placeholder="Type your message..." onkeypress="myFunction(event)">
+</body>
+</html>
