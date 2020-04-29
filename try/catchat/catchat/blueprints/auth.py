@@ -30,6 +30,7 @@ def update():
         if email:
             user.email_hash = email
         db.session.commit()
+        #return redirect('/#/profile')
         return jsonify(user_resource(user))
 
 
@@ -44,13 +45,15 @@ def create():
         db.session.add(room)
         db.session.commit()
         room.url_room()
-        file = request.files.get('file')
-        file.filename = 'room_' + str(room.id)  + os.path.splitext(file.filename)[1]
-        file.save(os.path.join(current_app.config['AVATARS_SAVE_PATH'], file.filename))
-        room.photo = file.filename
+        #file = request.files.get('file')
+        #file.filename = 'room_' + str(room.id)  + os.path.splitext(file.filename)[1]
+        #file.save(os.path.join(current_app.config['AVATARS_SAVE_PATH'], file.filename))
+        #room.photo = file.filename
         db.session.commit()
         session['room']=room.id
+        #return redirect('/#/chat')
         return jsonify(room_resource(room))
+
 
 @auth_bp.route('/search',methods=['GET','POST'])
 @login_required
@@ -65,7 +68,7 @@ def search():
         return jsonify(user_resource(user))
     return jsonify({'error':'no information'})
 
-@auth_bp.route('/updateroom',methods=['POST'])
+@auth_bp.route('/email_hash',methods=['POST'])
 @login_required
 def updateroom():
     room=Room.query.get(session['room'])

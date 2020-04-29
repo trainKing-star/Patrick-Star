@@ -48,7 +48,6 @@ def user_resource_room(room):
     return {
         'roomid':room.id,
         'roomname':room.roomname,
-        'roompassword':room.roompassword,
         'room_url':room.room_url,
         'description':room.description
     }
@@ -123,7 +122,6 @@ def room_resource(room):
         'roomid':room.id,
         'roomname':room.roomname,
         'room_url':room.room_url,
-        'roompassword':room.roompassword,
         'description':room.description,
         'author':{
             'userid':room.author.id,
@@ -134,7 +132,7 @@ def room_resource(room):
 
 room_post_parser = reqparse.RequestParser()
 room_post_parser.add_argument('roomname',type=str)
-room_post_parser.add_argument('roompassword',type=str)
+room_post_parser.add_argument('topic',type=str)
 room_post_parser.add_argument('description',type=str)
 room_post_parser.add_argument('author_id',type=int)
 
@@ -150,7 +148,7 @@ class Room_data(Resource):
         args = room_post_parser.parse_args()
         if not User.query.filter(User.id == args.author_id).first():
             return jsonify({'error':'no user'})
-        room = Room(roomname=args.roomname,roompassword=args.roompassword,description=args.description,author_id=args.author_id)
+        room = Room(roomname=args.roomname,topic=args.topic,description=args.description,author_id=args.author_id)
         db.session.add(room)
         db.session.commit()
         room.url_room()
@@ -164,10 +162,10 @@ class Room_data(Resource):
         args = room_post_parser.parse_args()
         if args.roomname:
             room.roomname = args.roomname
-        if args.roompassword:
-            room.roompassword = args.roompassword
         if args.description:
             room.description = args.description
+        if args.topic:
+            room.topic=args.topic
         if args.author_id:
             room.author_id = args.author_id
         db.session.commit()

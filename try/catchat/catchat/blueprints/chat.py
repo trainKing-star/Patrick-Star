@@ -25,7 +25,10 @@ def register():
             user = User(username=username,telephone=telephone,country=country,password_hash=password,email_hash=email)
             db.session.add(user)
             db.session.commit()
-            return jsonify(user_resource(user))
+            print(user.username)
+            #return redirect('/#/access')
+            return jsonify({'AAC':'true'},user_resource(user))
+        return jsonify({'AAC':'false'})
 
 @chat_bp.route('/login',methods=['POST'])
 def login():
@@ -36,16 +39,16 @@ def login():
             user = User.query.filter(username==User.username).first()
             if user.password_hash == password:
                 login_user(user)
-                return jsonify({'status':'true'},user_resource(user))
-            return jsonify({'status':'false'})
-        return jsonify({'status':'false'})
+                return jsonify({'AAB':'true'},user_resource(user))
+            return jsonify({'AAB':'false'})
+        return jsonify({'AAB':'false'})
 
 
-@chat_bp.route('/logout')
+@chat_bp.route('/logout',methods=['GET'])
 @login_required
 def logout():
     logout_user()
-    return jsonify({'status':'true'})
+    return jsonify({'AAD':'true'})
 
 
 @socketio.on('send_message')
@@ -60,7 +63,7 @@ def send_message(data):
 @login_required
 def connect():
     user = User.query.get(current_user.id)
-    emit('get_username',{'username':user.username},room=session['room'])
+    emit('get_username',{'username':user.username})
 
 @socketio.on('join')
 @login_required
