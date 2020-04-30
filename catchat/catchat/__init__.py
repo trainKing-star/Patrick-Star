@@ -14,9 +14,9 @@ def create_app(config_name=None):
     if config_name == None:
         config_name = os.getenv('FLASK_CONFIG', 'development')
 
-    app = Flask('catchat')
+    app = Flask('catchat',static_folder='./dist/static',template_folder='./dist')
     app.config.from_object(config[config_name])
-    app.config['AVATARS_SAVE_PATH'] =os.path.join(os.path.join(app.root_path,'static'),'picture')
+    app.config['AVATARS_SAVE_PATH'] =os.path.join(os.path.join(app.root_path,'dist','static'))
     app.config['MAIL_SERVER'] = 'smtp.qq.com'
     app.config['MAIL_PORT'] = 465
     app.config['MAIL_USE_SSL'] = True

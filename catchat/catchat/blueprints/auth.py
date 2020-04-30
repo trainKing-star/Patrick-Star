@@ -1,5 +1,6 @@
-from flask import Blueprint,request,render_template,redirect,flash,url_for,current_app
-from catchat.extensions import  db,login_manager,send_mail
+import base64
+from flask import Blueprint,request,render_template,redirect,flash,url_for,current_app,jsonify,session
+from catchat.extensions import  *
 from catchat.models  import User,Room
 from flask_login import current_user,login_user,login_required,logout_user
 from flask_dropzone import random_filename
@@ -9,57 +10,85 @@ import os
 
 auth_bp = Blueprint('auth',__name__)
 
-@auth_bp.route('/index')
-@login_required
-def index():
-    return render_template('profile.html')
 
-@auth_bp.route('/updateps',methods=['POST'])
+@auth_bp.route('/updates',methods=['GET','POST'])
 @login_required
 def update():
     user = User.query.get(current_user.id)
     if request.method == 'POST':
-        file = request.files.get('file')
+        file = request.files['file']
+        file = file.read()
+        file = base64.b64encode(file)
+        file = str(file,'utf-8')
         if file:
-            filename = random_filename(file.filename)
-            user.photo = filename
-            file.save(current_app.config['AVATARS_SAVE_PATH'],filename)
+            user.photo = file
         username = request.form.get('username')
+        if username:
+            user.username = username
         telephone = request.form.get('telephone')
+        if telephone:
+            user.telephone = telephone
         email = request.form.get('email')
-        user.username = username
-        user.telephone = telephone
-        user.hash_email(email)
+        if email:
+            user.email_hash = email
         db.session.commit()
-        return redirect(url_for('auth.index'))
+        #return redirect('/#/profile')
+        return jsonify({'AAB':'true'},user_resource(user))
 
 
-@auth_bp.route('/createroom',methods=['GET','POST'])
+@auth_bp.route('/createroom',methods=['POST'])
 @login_required
 def create():
     if request.method == 'POST':
-        file = request.files.get('file')
-        if file:
-            filename = random_filename(file.filename)
-            photo = filename
-            file.save(current_app.config['AVATARS_SAVE_PATH'], filename)
         name = request.form.get('roomname')
         description = request.form.get('description')
-        password = request.form.get('roompassword')
-        room = Room(roomname=name,description=description,author_id=current_user.id,roompassword=password)
+        topic =request.form.get('topic')
+        room = Room(roomname=name,description=description,author_id=current_user.id,topic=topic)
         db.session.add(room)
         db.session.commit()
         room.url_room()
+        file = request.files['file']
+        file = file.read()
+        file = base64.b64encode(file)
+        file = str(file,'utf-8')
+        if file:
+            room.photo = file
         db.session.commit()
-        return redirect(url_for('chat.chatroom',roomid=room.id))
-    return render_template('creategroup.html')
+        session['room']=room.id
+        #return redirect('/#/chat')
+        return jsonify({'AAB':'true'},room_resource(room))
+
 
 @auth_bp.route('/search',methods=['GET','POST'])
 @login_required
 def search():
-    url =request.form.get('room_url')
+    url =request.args.get('room_url_user')
     room = Room.query.filter(Room.room_url==url).first()
     if room:
-        return redirect(url_for('chat.chatroom',roomid=room.id))
-    flash('无房间')
-    return redirect('auth.index')
+        session['room']=room.id
+        return jsonify(room_resource(room))
+    user = User.query.filter(User.username==url).first()
+    if user:
+        return jsonify(user_resource(user))
+    return jsonify({'error':'no information'})
+
+@auth_bp.route('/email_hash',methods=['POST'])
+@login_required
+def updateroom():
+    room=Room.query.get(session['room'])
+    file = request.files.get('file')
+    file.filename = 'room_' + str(room.id) + os.path.splitext(file.filename)[1]
+    file.save(os.path.join(current_app.config['AVATARS_SAVE_PATH'], file.filename))
+    room.photo=file.filename
+    room.roomname=request.form.get('roomname')
+    room.description=request.form.get('description')
+    room.topic=request.form.get('topic')
+    db.session.commit()
+    return jsonify(room_resource(room))
+
+@auth_bp.route('/current_user',methods=['GET','POST'])
+@login_required
+def current():
+    user = User.query.get(current_user.id)
+    print(user.username)
+    return jsonify(user_resource(user))

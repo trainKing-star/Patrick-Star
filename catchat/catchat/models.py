@@ -36,7 +36,7 @@ class Room(db.Model):
     roomname = db.Column(db.String,unique=True)
     room_url = db.Column(db.String)
     photo = db.Column(db.String)
-    roompassword = db.Column(db.String)
+    topic = db.Column(db.String)
     description = db.Column(db.Text)
     author_id = db.Column(db.Integer,db.ForeignKey('user.id'))
     author = db.relationship('User',back_populates='rooms')

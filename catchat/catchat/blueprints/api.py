@@ -39,16 +39,15 @@ def index():
 
 def user_resource_message(messager):
     return {
-        'id':messager.id,
+        'messageid':messager.id,
         'body':messager.body,
-        'timestamp':messager.timestamp
+        'm_timestamp':messager.timestamp
     }
 
 def user_resource_room(room):
     return {
-        'id':room.id,
+        'roomid':room.id,
         'roomname':room.roomname,
-        'roompassword':room.roompassword,
         'room_url':room.room_url,
         'description':room.description
     }
@@ -120,21 +119,20 @@ def room_resource_list(rooms):
 
 def room_resource(room):
     return {
-        'id':room.id,
+        'roomid':room.id,
         'roomname':room.roomname,
         'room_url':room.room_url,
-        'roompassword':room.roompassword,
         'description':room.description,
         'author':{
-            'id':room.author.id,
+            'userid':room.author.id,
             'username':room.author.username
         },
-        'messagers':[{'id':messager.id,'body':messager.body} for messager in room.messagers]
+        'messagers':[{'messageid':messager.id,'body':messager.body,'m_timestamp':messager.timestamp} for messager in room.messagers]
     }
 
 room_post_parser = reqparse.RequestParser()
 room_post_parser.add_argument('roomname',type=str)
-room_post_parser.add_argument('roompassword',type=str)
+room_post_parser.add_argument('topic',type=str)
 room_post_parser.add_argument('description',type=str)
 room_post_parser.add_argument('author_id',type=int)
 
@@ -150,7 +148,7 @@ class Room_data(Resource):
         args = room_post_parser.parse_args()
         if not User.query.filter(User.id == args.author_id).first():
             return jsonify({'error':'no user'})
-        room = Room(roomname=args.roomname,roompassword=args.roompassword,description=args.description,author_id=args.author_id)
+        room = Room(roomname=args.roomname,topic=args.topic,description=args.description,author_id=args.author_id)
         db.session.add(room)
         db.session.commit()
         room.url_room()
@@ -164,10 +162,10 @@ class Room_data(Resource):
         args = room_post_parser.parse_args()
         if args.roomname:
             room.roomname = args.roomname
-        if args.roompassword:
-            room.roompassword = args.roompassword
         if args.description:
             room.description = args.description
+        if args.topic:
+            room.topic=args.topic
         if args.author_id:
             room.author_id = args.author_id
         db.session.commit()
@@ -182,15 +180,15 @@ def messager_resource_list(messagers):
 
 def messager_resource(messager):
     return {
-    'id':messager.id,
+    'messageid':messager.id,
     'body':messager.body,
-    'timestamp':messager.timestamp,
+    'm_timestamp':messager.timestamp,
     'auth_id':{
-        'id':messager.author.id,
+        'userid':messager.author.id,
         'username':messager.author.username
     },
     'room':{
-        'id':messager.room.id,
+        'roomid':messager.room.id,
         'roomname':messager.room.roomname
     }
     }
