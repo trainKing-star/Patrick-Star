@@ -68,13 +68,15 @@ def connect():
 @login_required
 def join():
     join_room(session['room'])
-    emit('send_message',{'message':current_user.username + '进入了房间'},room=session['room'])
+    emit('send_message',{'message':current_user.username + '进入了房间','photo':current_user.photo},room=session['room'])
 
 @socketio.on('leave')
 @login_required
 def leave():
     leave_room(session['room'])
-    emit('send_message', {'message': current_user.username + '离开了房间'},room=session['room'])
+    current_user.enter_room=0
+    emit('send_message', {'message': current_user.username + '离开了房间','photo':current_user.photo},room=session['room'])
+
 
 
 

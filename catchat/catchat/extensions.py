@@ -46,11 +46,12 @@ def user_resource_room(room):
 def user_resource(user):
     return {
     'id':user.id,
+    'enter_room':user.enter_room,
     'username':user.username,
     'password_hash':user.password_hash,
-    'userphoto':user.photo,
     'telephone':user.telephone,
     'email_hash':user.email_hash,
+    'userphoto':user.photo,
     'timestamp':user.timestamp,
     'country':user.country,
     'rooms':[user_resource_room(room) for room in user.rooms],
@@ -68,8 +69,8 @@ def room_resource(room):
         'roomname':room.roomname,
         'room_url':room.room_url,
         'topic':room.topic,
-        'description':room.description,
         'roomphoto':room.photo,
+        'description':room.description,
         'author':{
             'userid':room.author.id,
             'username':room.author.username

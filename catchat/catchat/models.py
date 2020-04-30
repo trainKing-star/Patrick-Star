@@ -14,6 +14,7 @@ class User(UserMixin,db.Model):
     timestamp = db.Column(db.DateTime,default=datetime.utcnow,index=True)
     messages = db.relationship('Messager',back_populates='author',cascade='all')
     rooms = db.relationship('Room',back_populates='author',cascade='all')
+    enter_room = db.Column(db.Integer,default=0)
 
     def hash_password(self,password):
         self.password_hash = pwd_context.encrypt(password)
@@ -43,7 +44,7 @@ class Room(db.Model):
     messagers = db.relationship('Messager',back_populates='room',cascade='all')
 
     def url_room(self):
-        self.room_url = 'http://127.0.0.1:5000/room/id=' + str(self.id)
+        self.room_url = 'http://114.55.98.156:3000/room/id=' + str(self.id)
 
 class Messager(db.Model):
     id = db.Column(db.Integer,primary_key=True)

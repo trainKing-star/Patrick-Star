@@ -7,7 +7,6 @@ from flask_dropzone import random_filename
 import os
 
 
-
 auth_bp = Blueprint('auth',__name__)
 
 
@@ -55,7 +54,32 @@ def create():
             room.photo = file
         db.session.commit()
         session['room']=room.id
+        current_user.enter_room=session['room']
         #return redirect('/#/chat')
+        return jsonify({'AAB':'true'},room_resource(room))
+
+
+@auth_bp.route('/updateroom',methods=['POST'])
+def updateroom1():
+    room = Room.query.get(session['room'])
+    if request.method == 'POST':
+        file = request.files['file']
+        file = file.read()
+        file = base64.b64encode(file)
+        file = str(file,'utf-8')
+        if file:
+            room.photo = file
+        roomname = request.form.get('roomname')
+        if roomname:
+            room.roomname = roomname
+        topic = request.form.get('topic')
+        if topic:
+            room.topic = topic
+        description = request.form.get('description')
+        if description:
+            room.description = description
+        db.session.commit()
+        #return redirect('/#/profile')
         return jsonify({'AAB':'true'},room_resource(room))
 
 
@@ -66,17 +90,18 @@ def search():
     room = Room.query.filter(Room.room_url==url).first()
     if room:
         session['room']=room.id
-        return jsonify(room_resource(room))
+        current_user.enter_room=session['room']
+        return jsonify({'judge':'room'},room_resource(room))
     user = User.query.filter(User.username==url).first()
     if user:
-        return jsonify(user_resource(user))
+        return jsonify({'judge':'user'},user_resource(user))
     return jsonify({'error':'no information'})
 
-@auth_bp.route('/current_room',methods=['POST'])
+@auth_bp.route('/current_room',methods=['GET'])
 @login_required
 def updateroom():
     room=Room.query.get(session['room'])
-    return jsonify(room_resource(room))
+    return jsonify( room_resource(room))
 
 @auth_bp.route('/current_user',methods=['GET','POST'])
 @login_required
