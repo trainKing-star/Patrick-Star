@@ -72,23 +72,14 @@ def search():
         return jsonify(user_resource(user))
     return jsonify({'error':'no information'})
 
-@auth_bp.route('/email_hash',methods=['POST'])
+@auth_bp.route('/current_room',methods=['POST'])
 @login_required
 def updateroom():
     room=Room.query.get(session['room'])
-    file = request.files.get('file')
-    file.filename = 'room_' + str(room.id) + os.path.splitext(file.filename)[1]
-    file.save(os.path.join(current_app.config['AVATARS_SAVE_PATH'], file.filename))
-    room.photo=file.filename
-    room.roomname=request.form.get('roomname')
-    room.description=request.form.get('description')
-    room.topic=request.form.get('topic')
-    db.session.commit()
     return jsonify(room_resource(room))
 
 @auth_bp.route('/current_user',methods=['GET','POST'])
 @login_required
 def current():
     user = User.query.get(current_user.id)
-    print(user.username)
     return jsonify(user_resource(user))
