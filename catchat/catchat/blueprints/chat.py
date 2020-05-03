@@ -2,10 +2,11 @@ from flask import Blueprint,render_template,redirect,url_for,request,flash,sessi
 from flask_socketio import emit,join_room,leave_room,send
 from catchat.extensions import *
 from catchat.models import User,Room,Messager
+from faker import Faker
 from flask_login import current_user,login_user,logout_user,login_required
 
 chat_bp = Blueprint('chat',__name__)
-
+faker =Faker('zh_CN')
 
 @chat_bp.route('/',methods=['GET','POST'])
 def index():
@@ -22,9 +23,11 @@ def register():
         email = request.form.get('email_hash')
         country = request.form.get('country')
         if password == repeatpassword:
-            user = User(username=username,telephone=telephone,country=country,password_hash=password,email_hash=email)
+            user = User(username=username,telephone=telephone,country=country,email_hash=email,nickname=faker.name())
+            user.hash_password(password)
             db.session.add(user)
             db.session.commit()
+            #send_mail('chachat',user.email_hash,'register success')
             #return redirect('/#/access')
             return jsonify({'AAB':'true'},user_resource(user))
         return jsonify({'AAB':'false'})
@@ -36,7 +39,7 @@ def login():
         password = request.form.get('password_hash')
         if User.query.filter(username==User.username).first():
             user = User.query.filter(username==User.username).first()
-            if user.password_hash == password:
+            if user.verify_password(password):
                 login_user(user)
                 return jsonify({'AAB':'true'},user_resource(user))
             return jsonify({'AAB':'false'})
@@ -48,6 +51,15 @@ def login():
 def logout():
     logout_user()
     return jsonify({'AAB':'true'})
+
+
+@chat_bp.route('/message',methods=['GET'])
+def get_message():
+    room =Room.query.get(session['room'])
+    messagers = room.messagers
+    return jsonify(messager_resource_list(messagers))
+
+
 
 
 @socketio.on('emit_method')
@@ -68,14 +80,14 @@ def connect():
 @login_required
 def join():
     join_room(session['room'])
-    emit('send_message',{'message':current_user.username + '进入了房间','photo':current_user.photo},room=session['room'])
+    emit('send_message',{'message':current_user.nickname + '进入了房间','photo':current_user.photo},room=session['room'])
 
 @socketio.on('leave')
 @login_required
 def leave():
     leave_room(session['room'])
     current_user.enter_room=0
-    emit('send_message', {'message': current_user.username + '离开了房间','photo':current_user.photo},room=session['room'])
+    emit('send_message', {'message': current_user.nickname + '离开了房间','photo':current_user.photo},room=session['room'])
 
 
 

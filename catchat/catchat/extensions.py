@@ -55,7 +55,8 @@ def user_resource(user):
     'timestamp':user.timestamp,
     'country':user.country,
     'rooms':[user_resource_room(room) for room in user.rooms],
-    'messages':[user_resource_message(messager) for messager in user.messages]
+    'messages':[user_resource_message(messager) for messager in user.messages],
+    'nickname':user.nickname
     }
 
 def room_resource_list(rooms):
@@ -90,7 +91,8 @@ def messager_resource(messager):
     'm_timestamp':messager.timestamp,
     'auth_id':{
         'userid':messager.author.id,
-        'username':messager.author.username
+        'username':messager.author.username,
+        'userphoto':messager.author.photo
     },
     'room':{
         'roomid':messager.room.id,
