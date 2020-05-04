@@ -27,7 +27,7 @@ def register():
             user.hash_password(password)
             db.session.add(user)
             db.session.commit()
-            #send_mail('chachat',user.email_hash,'register success')
+            send_mail('chachat',user.email_hash,'register success')
             #return redirect('/#/access')
             return jsonify({'AAB':'true'},user_resource(user))
         return jsonify({'AAB':'false'})
@@ -49,7 +49,9 @@ def login():
 @chat_bp.route('/logout',methods=['GET'])
 @login_required
 def logout():
+    current_user.enter_room=0
     logout_user()
+    socketio.emit('disconnect')
     return jsonify({'AAB':'true'})
 
 
@@ -58,9 +60,6 @@ def get_message():
     room =Room.query.get(session['room'])
     messagers = room.messagers
     return jsonify(messager_resource_list(messagers))
-
-
-
 
 @socketio.on('emit_method')
 @login_required
@@ -86,8 +85,8 @@ def join():
 @login_required
 def leave():
     leave_room(session['room'])
-    current_user.enter_room=0
     emit('send_message', {'message': current_user.nickname + '离开了房间','photo':current_user.photo},room=session['room'])
+    session['room']=0
 
 
 
