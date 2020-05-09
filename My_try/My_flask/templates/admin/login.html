@@ -1,0 +1,54 @@
+{%from 'bootstrap/form.html' import render_form%}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>一个简陋的网站</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+  <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <ul class="navbar-nav">
+    <li class="nav-item active">
+      <a class="nav-link" href="{{ url_for('blog.index') }}">首页</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">排行榜</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">分类</a>
+    </li>
+  </ul>
+</nav>
+    <div class="container h-100">
+        <div class="row h-100 page-header justify-content-center align-items-center">
+            <h1>登录</h1>
+        </div>
+        <div class="row h-100 justify-content-center align-items-center">
+            <form method="post">
+			{{form.csrf_token}}
+			{{form.username.label}}<br>
+			{{form.username}}<br>
+            {% if form.username.errors %}
+				{% for message in form.username.errors %}
+				    <small class="error">{{message}}</small>
+				{% endfor %}
+			{% endif %}
+            {{form.password.label}}<br>
+			{{form.password}}<br>
+			{% if form.password.errors %}
+				{% for message in form.password.errors %}
+					<small class="error">{{message}}</small><br>
+				{% endfor %}
+			{% endif %}
+			{{form.submit}}<br>
+		</form>
+        </div>
+    </div>
+
+</body>
+</html>
