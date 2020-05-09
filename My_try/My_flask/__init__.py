@@ -3,6 +3,7 @@ from My_flask.extensions import  db,moment,bootstrap,login_manager,Avatars,Dropz
 from My_flask.blueprints.admin import admin_bp
 from My_flask.blueprints.auth import auth_bp
 from My_flask.blueprints.blog import blog_bp
+import click
 import os
 
 def create_app(config_name=None):
@@ -23,6 +24,7 @@ def create_app(config_name=None):
     app.config['DROPZONE_DEFAULT_MESSAGE'] = '点击这里，上传文件，但是现在暂不支持此功能'
     register_extensions(app)
     register_blueprints(app)
+    register_command(app)
     return app
 
 def register_extensions(app):
@@ -38,3 +40,9 @@ def register_blueprints(app):
     app.register_blueprint(admin_bp, url_prefix='/admin')
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
+def register_command(app):
+    @app.cli.command()
+    def initdb():
+        db.drop_all()
+        db.create_all()
+        click.echo('create success')
