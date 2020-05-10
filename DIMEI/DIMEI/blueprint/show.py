@@ -89,4 +89,4 @@ def discussion_s(discussion_id):
     discussion = Discussion.query.get(discussion_id)
     if not discussion:
         return jsonify({'event':'no discussion'})
-    return jsonify({'event':'success'},search_discussion_t(discussion))
+    return jsonify({'event':'success'},search_discussion_s(discussion))

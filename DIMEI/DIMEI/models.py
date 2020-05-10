@@ -111,9 +111,6 @@ class Course(db.Model):
         teachar = Teachar.query.filter_by(number=number).first()
         self.teachar_id = teachar.id
 
-    def search_grade(self,name):
-        grade = Grade.query.filter_by(name=name).first()
-        self.grade_id = grade.id
 
 
 class Notification(db.Model):

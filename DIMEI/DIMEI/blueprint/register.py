@@ -29,13 +29,13 @@ def course():
     subject = request.form.get('subject')
     teachar_num = request.form.get('teachar_num')
     icon = request.files['icon']
-    grade_name = request.form.get('grade_name')
-    course = Course(subject=subject)
-    course.search_grade(grade_name)
+    grade_id = request.form.get('grade_id')
+    course = Course(subject=subject,grade_id=grade_id)
     course.search_teachar(teachar_num)
     db.session.add(course)
     db.session.commit()
     icon.filename = 'course' + str(course.id) + os.path.splitext(icon.filename)[1]
+    course.icon = icon.filename
     db.session.commit()
     return jsonify({'event':'true'},search_course(course))
 
@@ -75,7 +75,4 @@ def student():
     return jsonify({'event':'true'},search_student(student))
 
 
-@register_bp.route('/avatars/<path:filename>')
-def get_avatar(filename):
-    return send_from_directory(current_app.config['UPLOAD_PATH'],filename)
 

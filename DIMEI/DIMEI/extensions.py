@@ -20,7 +20,7 @@ def search_teachar(teachar):
         'gender':teachar.gender,
         #'grades':[search_grade_teachar(grade) for grade in teachar.grades],
         'courses':[search_course_teachar(course) for course in teachar.courses],
-        'discussion':[search_discussion_teachar(discussion) for discussion in teachar.discussions]
+        'discussions':[search_discussion_teachar(discussion) for discussion in teachar.discussions]
     }
 
 def search_grade_teachar(grade):
@@ -160,7 +160,9 @@ def search_homework(homework):
         'solutionImages':[{'solutionImage':solutionImage.photo} for solutionImage in homework.solutionImages] ,
         'finished':homework.finished,
         'corrected':homework.corrected,
-        'reply':[search_reply(reply) for reply in homework.replies]
+        'reply':[search_reply(reply) for reply in homework.replies],
+        'author_num':homework.author.number,
+        'course_id':homework.course.id
     }
 
 def search_reply(reply):
