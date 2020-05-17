@@ -36,6 +36,7 @@ def search_grade(grade):
         'courses':[search_course_grade(course) for course in grade.courses]
     }
 
+
 def search_grade_school(grade):
     return {
         'grade_id':grade.id,
@@ -71,8 +72,7 @@ def search_student(student):
         'avatar':student.avatar,
         'gender':student.gender,
         'name':student.name,
-        #'school':student.grade.school,
-        #'grade':student.grade.name,
+        'grade_id':student.grade.id,
         #'courses':[search_course_teachar(course) for course in student.grade.courses],
         'discussions':[search_discussion_teachar(discussion) for discussion in student.discussions]
     }
@@ -80,6 +80,7 @@ def search_student(student):
 def search_course(course):
     return {
         'course_id':course.id,
+        'grade_id':course.grade.id,
         'subject':course.subject,
         'teachar':course.teachar.name,
         'icon':course.icon,
@@ -97,7 +98,8 @@ def search_homework_course(homework):
     return {
         'homework_id':homework.id,
         'author':homework.author,
-        'title':homework.title
+        'title':homework.title,
+        'author_id':homework.author.id
     }
 
 def search_discussion_t(discussion):

@@ -19,24 +19,26 @@ def homework():
     homework = Homework(author_id=g.teachar.id,title=title,deadline=deadline,questionText=questionText,solutionText=solutionText,course_id=course_id)
     db.session.add(homework)
     db.session.commit()
-    if questionImages[0].filename != '':
-        i = 0
-        for file in questionImages:
-            i = i + 1
-            file.filename = 'question' + str(homework.id) + '_' + str(i) + os.path.splitext(file.filename)[1]
-            questionImage = QuestionImage(photo=file.filename, homework_id=homework.id)
-            file.save(os.path.join(current_app.config['UPLOAD_PATH'], file.filename))
-            db.session.add(questionImage)
-            db.session.commit()
-    if solutionImages[0].filename != '':
-        j = 0
-        for file in solutionImages:
-            j = j + 1
-            file.filename = 'solution' + str(homework.id) + '_' + str(j) + os.path.splitext(file.filename)[1]
-            solutionImage = SolutionImage(photo=file.filename, homework_id=homework.id)
-            file.save(os.path.join(current_app.config['UPLOAD_PATH'], file.filename))
-            db.session.add(solutionImage)
-            db.session.commit()
+    if questionImages:
+        if questionImages[0].filename != '':
+            i = 0
+            for file in questionImages:
+                i = i + 1
+                file.filename = 'question' + str(homework.id) + '_' + str(i) + os.path.splitext(file.filename)[1]
+                questionImage = QuestionImage(photo=file.filename, homework_id=homework.id)
+                file.save(os.path.join(current_app.config['UPLOAD_PATH'], file.filename))
+                db.session.add(questionImage)
+                db.session.commit()
+    if solutionImages:
+        if solutionImages[0].filename != '':
+            j = 0
+            for file in solutionImages:
+                j = j + 1
+                file.filename = 'solution' + str(homework.id) + '_' + str(j) + os.path.splitext(file.filename)[1]
+                solutionImage = SolutionImage(photo=file.filename, homework_id=homework.id)
+                file.save(os.path.join(current_app.config['UPLOAD_PATH'], file.filename))
+                db.session.add(solutionImage)
+                db.session.commit()
     return jsonify({'event':'true'},search_homework(homework))
 
 @create_bp.route('/reply',methods=['POST'])
@@ -48,15 +50,17 @@ def reply():
     reply = Reply(Text=replyText,homework_id=homework_id,student_id=g.student.id)
     db.session.add(reply)
     db.session.commit()
-    if replyImages[0].filename != '':
-        i=0
-        for file in replyImages:
-            i = i + 1
-            file.filename = 'reply' + '_' + str(reply.id) + '_' + str(g.student.id) + '_' + str(i) + os.path.splitext(file.filename)[1]
-            replyImage = ReplyImage(photo=file.filename, reply_id=reply.id)
-            file.save(os.path.join(current_app.config['UPLOAD_PATH'], file.filename))
-            db.session.add(replyImage)
-            db.session.commit()
+    if replyImages:
+        if replyImages[0].filename != '':
+            i = 0
+            for file in replyImages:
+                i = i + 1
+                file.filename = 'reply' + '_' + str(reply.id) + '_' + str(g.student.id) + '_' + str(i) + \
+                                os.path.splitext(file.filename)[1]
+                replyImage = ReplyImage(photo=file.filename, reply_id=reply.id)
+                file.save(os.path.join(current_app.config['UPLOAD_PATH'], file.filename))
+                db.session.add(replyImage)
+                db.session.commit()
     return jsonify({'event':'true'},search_reply(reply))
 
 @create_bp.route('/discussion_t',methods=['POST'])
@@ -68,16 +72,17 @@ def discussion_t():
     discussion = Discussion(course_id=course_id,teachar_id=g.teachar.id,text=text)
     db.session.add(discussion)
     db.session.commit()
-    if images[0].filename != '':
-        i = 0
-        for file in images:
-            i = i + 1
-            file.filename = 'discussion_t' + str(discussion.id) + '_' + str(g.teachar.id) + '_' + str(i) + \
-                            os.path.splitext(file.filename)[1]
-            image = DiscussionImage(photo=file.filename, discussion_id=discussion.id)
-            file.save(os.path.join(current_app.config['UPLOAD_PATH'], file.filename))
-            db.session.add(image)
-            db.session.commit()
+    if images:
+        if images[0].filename != '':
+            i = 0
+            for file in images:
+                i = i + 1
+                file.filename = 'discussion_t' + str(discussion.id) + '_' + str(g.teachar.id) + '_' + str(i) + \
+                                os.path.splitext(file.filename)[1]
+                image = DiscussionImage(photo=file.filename, discussion_id=discussion.id)
+                file.save(os.path.join(current_app.config['UPLOAD_PATH'], file.filename))
+                db.session.add(image)
+                db.session.commit()
     return jsonify({'event':'true'},search_discussion_t(discussion))
 
 @create_bp.route('/like',methods=['POST'])
@@ -111,16 +116,17 @@ def discussion_s():
     discussion = Discussion(course_id=course_id,student_id=g.student.id,text=text)
     db.session.add(discussion)
     db.session.commit()
-    if images[0].filename != '':
-        i=0
-        for file in images:
-            i = i + 1
-            file.filename = 'discussion_s' + str(discussion.id) + '_' + str(g.student.id) + '_' + str(i) + \
-                            os.path.splitext(file.filename)[1]
-            image = DiscussionImage(photo=file.filename, discussion_id=discussion.id)
-            file.save(os.path.join(current_app.config['UPLOAD_PATH'], file.filename))
-            db.session.add(image)
-            db.session.commit()
+    if images:
+        if images[0].filename != '':
+            i = 0
+            for file in images:
+                i = i + 1
+                file.filename = 'discussion_s' + str(discussion.id) + '_' + str(g.student.id) + '_' + str(i) + \
+                                os.path.splitext(file.filename)[1]
+                image = DiscussionImage(photo=file.filename, discussion_id=discussion.id)
+                file.save(os.path.join(current_app.config['UPLOAD_PATH'], file.filename))
+                db.session.add(image)
+                db.session.commit()
     return jsonify({'event':'true'},search_discussion_s(discussion))
 
 @create_bp.route('/notification',methods=['POST'])

@@ -26,7 +26,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="D:/gitubx/Patrick-Star/My_try" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -111,7 +111,17 @@
       <workItem from="1589037526956" duration="646000" />
       <workItem from="1589103590960" duration="3677000" />
       <workItem from="1589111569970" duration="7679000" />
-      <workItem from="1589120363248" duration="1523000" />
+      <workItem from="1589120363248" duration="2533000" />
+      <workItem from="1589125011879" duration="3509000" />
+      <workItem from="1589155312920" duration="611000" />
+      <workItem from="1589172960463" duration="644000" />
+      <workItem from="1589269245718" duration="1498000" />
+      <workItem from="1589462633636" duration="484000" />
+      <workItem from="1589534780578" duration="200000" />
+      <workItem from="1589595343873" duration="147000" />
+      <workItem from="1589718846503" duration="67000" />
+      <workItem from="1589723990847" duration="900000" />
+      <workItem from="1589726565815" duration="1962000" />
     </task>
     <servers />
   </component>
@@ -127,34 +137,34 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="499" y="162" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1588943957536" />
-    <state x="549" y="171" key="FileChooserDialogImpl" timestamp="1589020246109">
+    <state x="549" y="171" key="FileChooserDialogImpl" timestamp="1589718911935">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="549" y="171" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1589020246109" />
-    <state width="1493" height="208" key="GridCell.Tab.0.bottom" timestamp="1589121582473">
+    <state x="549" y="171" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1589718911935" />
+    <state width="1493" height="208" key="GridCell.Tab.0.bottom" timestamp="1589728533820">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="208" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1589121582473" />
-    <state width="1493" height="208" key="GridCell.Tab.0.center" timestamp="1589121582473">
+    <state width="1493" height="208" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1589728533820" />
+    <state width="1493" height="208" key="GridCell.Tab.0.center" timestamp="1589728533819">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="208" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1589121582473" />
-    <state width="1493" height="208" key="GridCell.Tab.0.left" timestamp="1589121582472">
+    <state width="1493" height="208" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1589728533819" />
+    <state width="1493" height="208" key="GridCell.Tab.0.left" timestamp="1589728533819">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="208" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1589121582472" />
-    <state width="1493" height="208" key="GridCell.Tab.0.right" timestamp="1589121582473">
+    <state width="1493" height="208" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1589728533819" />
+    <state width="1493" height="208" key="GridCell.Tab.0.right" timestamp="1589728533819">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="208" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1589121582473" />
+    <state width="1493" height="208" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1589728533819" />
     <state x="272" y="58" key="SettingsEditor" timestamp="1588592435022">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="272" y="58" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1588592435022" />
-    <state x="461" y="241" key="com.intellij.ide.util.TipDialog" timestamp="1589120395991">
+    <state x="461" y="241" key="com.intellij.ide.util.TipDialog" timestamp="1589718848913">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="461" y="241" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1589120395991" />
+    <state x="461" y="241" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1589718848913" />
     <state x="129" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1589121275875">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -162,7 +172,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/DIMEI$app.coverage" NAME="app Coverage Results" MODIFIED="1588860098834" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/DIMEI$DIMEI.coverage" NAME="DIMEI Coverage Results" MODIFIED="1589121582460" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/DIMEI$DIMEI.coverage" NAME="DIMEI Coverage Results" MODIFIED="1589727611661" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/DIMEI$wsgi.coverage" NAME="wsgi Coverage Results" MODIFIED="1588861140953" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

@@ -57,8 +57,8 @@ def grade_all():
 
 @show_bp.route('/grade')
 def grade_one():
-    gradename = request.args.get('gradename')
-    grade = Grade.query.filter_by(name=gradename).first()
+    grade_id = request.args.get('grade_id')
+    grade = Grade.query.filter_by(id=grade_id).first()
     if not grade:
         return jsonify({'event':'no grade'})
     return jsonify({'event':'success'},search_grade(grade))
