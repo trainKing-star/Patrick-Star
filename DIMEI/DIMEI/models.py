@@ -116,6 +116,7 @@ class Course(db.Model):
 class Notification(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     text = db.Column(db.Text)
+    time = db.Column(db.DateTime, default=datetime.utcnow, index=True)
     course_id = db.Column(db.Integer,db.ForeignKey('course.id'))
     course = db.relationship('Course',back_populates='notifications')
 
@@ -168,8 +169,6 @@ class Homework(db.Model):
     replies = db.relationship('Reply',back_populates='homework',cascade='all')
     solutionText = db.Column(db.Text)
     solutionImages = db.relationship('SolutionImage',back_populates='homework',cascade='all')
-    finished = db.Column(db.Boolean,default=False)
-    corrected = db.Column(db.Boolean,default=False)
 
 class QuestionImage(db.Model):
     id = db.Column(db.Integer,primary_key=True)
@@ -186,6 +185,8 @@ class SolutionImage(db.Model):
 class Reply(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     Text=db.Column(db.Text)
+    finished = db.Column(db.Boolean, default=False)
+    corrected = db.Column(db.Boolean, default=False)
     student_id = db.Column(db.Integer,db.ForeignKey('student.id'))
     student = db.relationship('Student',back_populates='replies')
     homework = db.relationship('Homework',back_populates='replies')

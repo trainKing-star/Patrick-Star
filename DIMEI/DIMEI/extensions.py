@@ -73,7 +73,6 @@ def search_student(student):
         'gender':student.gender,
         'name':student.name,
         'grade_id':student.grade.id,
-        #'courses':[search_course_teachar(course) for course in student.grade.courses],
         'discussions':[search_discussion_teachar(discussion) for discussion in student.discussions]
     }
 
@@ -85,19 +84,22 @@ def search_course(course):
         'teachar':course.teachar.name,
         'icon':course.icon,
         'homeworks':[search_homework_course(homework) for homework in course.homeworks],
+        'discussions':[search_discussion_teachar(discussion) for discussion in course.discussions],
         'notifications':[search_notification(notification) for notification in course.notifications]
     }
+
 
 def search_notification(notification):
     return {
         'notification_id':notification.id,
-        'text':notification.text
+        'text':notification.text,
+        'time':notification.time
     }
 
 def search_homework_course(homework):
     return {
         'homework_id':homework.id,
-        'author':homework.author,
+        'author':homework.author.name,
         'title':homework.title,
         'author_id':homework.author.id
     }
@@ -160,8 +162,6 @@ def search_homework(homework):
         'questionImages':[{'questionImage':questionImage.photo} for questionImage in homework.questionImages],
         'solutionText':homework.solutionText,
         'solutionImages':[{'solutionImage':solutionImage.photo} for solutionImage in homework.solutionImages] ,
-        'finished':homework.finished,
-        'corrected':homework.corrected,
         'reply':[search_reply(reply) for reply in homework.replies],
         'author_num':homework.author.number,
         'course_id':homework.course.id
@@ -169,9 +169,12 @@ def search_homework(homework):
 
 def search_reply(reply):
     return {
+        'reply_id':reply.id,
         'homework_id':reply.homework.id,
-        'author_id':reply.student.id,
+        'student_num':reply.student.number,
         'replyText':reply.Text,
+        'corrected':reply.corrected,
+        'finished':reply.finished,
         'replyImages':[{'replyImage':replyImage.photo} for replyImage in reply.replyImages]
     }
 

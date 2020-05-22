@@ -7,6 +7,7 @@ from DIMEI.blueprint.create import create_bp
 from DIMEI.blueprint.drop import drop_bp
 from DIMEI.blueprint.show import show_bp
 from DIMEI.blueprint.register import register_bp
+from DIMEI.blueprint.update import update_bp
 import os
 import click
 
@@ -35,6 +36,7 @@ def register_blueprints(app):
     app.register_blueprint(login_bp,url_prefix='/login')
     app.register_blueprint(register_bp,url_prefix='/register')
     app.register_blueprint(show_bp,url_prefix='/show')
+    app.register_blueprint(update_bp,url_prefix='/update')
 
 def register_error(app):
     pass

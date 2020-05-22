@@ -47,21 +47,25 @@ def reply():
     replyText = request.form.get('replyText')
     replyImages = request.files.getlist('replyImages')
     homework_id = request.form.get('homework_id')
-    reply = Reply(Text=replyText,homework_id=homework_id,student_id=g.student.id)
-    db.session.add(reply)
-    db.session.commit()
-    if replyImages:
-        if replyImages[0].filename != '':
-            i = 0
-            for file in replyImages:
-                i = i + 1
-                file.filename = 'reply' + '_' + str(reply.id) + '_' + str(g.student.id) + '_' + str(i) + \
-                                os.path.splitext(file.filename)[1]
-                replyImage = ReplyImage(photo=file.filename, reply_id=reply.id)
-                file.save(os.path.join(current_app.config['UPLOAD_PATH'], file.filename))
-                db.session.add(replyImage)
-                db.session.commit()
-    return jsonify({'event':'true'},search_reply(reply))
+    if homework_id is not None:
+        if Homework.query.get(homework_id) is None:
+            return jsonify({'event':'failure'})
+        reply = Reply(Text=replyText, homework_id=homework_id, student_id=g.student.id)
+        db.session.add(reply)
+        db.session.commit()
+        if replyImages:
+            if replyImages[0].filename != '':
+                i = 0
+                for file in replyImages:
+                    i = i + 1
+                    file.filename = 'reply' + '_' + str(reply.id) + '_' + str(g.student.id) + '_' + str(i) + \
+                                    os.path.splitext(file.filename)[1]
+                    replyImage = ReplyImage(photo=file.filename, reply_id=reply.id)
+                    file.save(os.path.join(current_app.config['UPLOAD_PATH'], file.filename))
+                    db.session.add(replyImage)
+                    db.session.commit()
+        return jsonify({'event': 'true'}, search_reply(reply))
+    return jsonify({'event':'failure'})
 
 @create_bp.route('/discussion_t',methods=['POST'])
 @auth_t.login_required
@@ -100,6 +104,8 @@ def like():
 def comment():
     detail = request.form.get('detail')
     discussion_id = request.form.get('discussion_id')
+    if Discussion.query.get(discussion_id) is None:
+        return jsonify({'event':'failure'})
     comment = Comment(detail=detail,discussion_id=discussion_id,publisher=g.user.name)
     db.session.add(comment)
     db.session.commit()
