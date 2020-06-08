@@ -18,7 +18,7 @@ class Teachar(db.Model):
     discussions = db.relationship('Discussion',back_populates='teachar',cascade='all')
     homeworks = db.relationship('Homework',back_populates='author',cascade='all')
 
-    def generate_auth_token(self,expiration=600):
+    def generate_auth_token(self,expiration=6000):
         s = Serializer(current_app.config['SECRET_KEY'],expires_in=expiration)
         return s.dumps({'teachar_id':self.id})
 
@@ -51,7 +51,7 @@ class Student(db.Model):
     replies = db.relationship('Reply',back_populates='student',cascade='all')
     discussions = db.relationship('Discussion',back_populates='student',cascade='all')
 
-    def generate_auth_token(self,expiration=600):
+    def generate_auth_token(self,expiration=6000):
         s = Serializer(current_app.config['SECRET_KEY'],expires_in=expiration)
         return s.dumps({'student_id':self.id})
 
@@ -138,6 +138,7 @@ class Discussion(db.Model):
 class Like(db.Model):
     id= db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String)
+    number = db.Column(db.String)
     discussion = db.relationship('Discussion',back_populates='likes')
     discussion_id = db.Column(db.Integer,db.ForeignKey('discussion.id'))
 
@@ -170,6 +171,7 @@ class Homework(db.Model):
     solutionText = db.Column(db.Text)
     solutionImages = db.relationship('SolutionImage',back_populates='homework',cascade='all')
 
+
 class QuestionImage(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     photo = db.Column(db.String)
@@ -192,7 +194,14 @@ class Reply(db.Model):
     homework = db.relationship('Homework',back_populates='replies')
     homework_id = db.Column(db.Integer,db.ForeignKey('homework.id'))
     replyImages = db.relationship('ReplyImage',back_populates='reply',cascade='all')
+    evaluationText = db.Column(db.Text)
+    evaluationImages = db.relationship('EvaluationImage',back_populates='reply',cascade='all')
 
+class EvaluationImage(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    photo = db.Column(db.String)
+    reply = db.relationship('Reply',back_populates='evaluationImages')
+    reply_id = db.Column(db.Integer,db.ForeignKey('reply.id'))
 
 class ReplyImage(db.Model):
     id = db.Column(db.Integer,primary_key=True)

@@ -113,11 +113,8 @@ def search_discussion_t(discussion):
         'text':discussion.text,
         'images':[search_images(discussionImage) for discussionImage in discussion.images],
         'time':discussion.time,
-        'likes':
-            {
-                'count':len(discussion.likes),
-                'name':[like.name for like in discussion.likes]
-            },
+        'count': len(discussion.likes),
+        'likes': [search_like(like) for like in discussion.likes],
         'comments':[search_comment(comment) for comment in discussion.comments]
     }
 
@@ -130,13 +127,18 @@ def search_discussion_s(discussion):
         'text':discussion.text,
         'images':[search_images(discussionImage) for discussionImage in discussion.images],
         'time':discussion.time,
-        'likes':
-            {
-                'count':len(discussion.likes),
-                'name':[like.name for like in discussion.likes]
-            },
+        'count': len(discussion.likes),
+        'likes':[search_like(like) for like in discussion.likes],
         'comments':[search_comment(comment) for comment in discussion.comments]
     }
+
+def search_like(like):
+    return {
+        'like_id':like.id,
+        'number':like.number,
+        'name':like.name
+    }
+
 
 def search_images(discussionImage):
     return {
@@ -156,6 +158,7 @@ def search_homework(homework):
     return {
         'homework_id':homework.id,
         'title':homework.title,
+        'author':homework.author.name,
         'releaseTime':homework.releaseTime,
         'deadline':homework.deadline,
         'questionText':homework.questionText,
@@ -167,6 +170,7 @@ def search_homework(homework):
         'course_id':homework.course.id
     }
 
+
 def search_reply(reply):
     return {
         'reply_id':reply.id,
@@ -175,7 +179,9 @@ def search_reply(reply):
         'replyText':reply.Text,
         'corrected':reply.corrected,
         'finished':reply.finished,
-        'replyImages':[{'replyImage':replyImage.photo} for replyImage in reply.replyImages]
+        'replyImages':[{'replyImage':replyImage.photo} for replyImage in reply.replyImages],
+        'evaluationText': reply.evaluationText,
+        'evaluationImages': [{'evaluationImage': evaluationImage.photo} for evaluationImage in reply.evaluationImages]
     }
 
 
@@ -190,5 +196,6 @@ def search_school(school):
 def search_notifi(notification):
     return {
         'text':notification.text,
+        'time':notification.time,
         'course_id':notification.course.id
     }

@@ -93,8 +93,9 @@ def discussion_t():
 @auth.login_required
 def like():
     name=g.user.name
+    number = g.user.number
     discussion_id = request.form.get('discussion_id')
-    like = Like(name=name,discussion_id=discussion_id)
+    like = Like(name=name,number=number,discussion_id=discussion_id)
     db.session.add(like)
     db.session.commit()
     return jsonify({'event':'true'})

@@ -122,11 +122,20 @@ def update_reply_t(reply_id):
     reply = Reply.query.get(reply_id)
     if reply is None:
         return jsonify({'event':'failure'})
-    corrected = request.form.get('corrected')
-    if corrected is not None:
-        reply.corrected = True
-    finished = request.form.get('finished')
-    if finished is not None:
-        reply.finished = True
+    evaluationText = request.form.get('evaluationText')
+    if evaluationText is not None:
+        reply.evaluationText = evaluationText
+    evaluationImages = request.files.getlist('evaluationImages')
+    if evaluationImages is not None:
+        if evaluationImages:
+            if evaluationImages[0].filename != '':
+                i = 0
+                for file in evaluationImages:
+                    i = i + 1
+                    file.filename = 'evaluation' + '_' + str(reply.id) + '_' + str(g.teachar.id) + '_' + str(i) + \
+                                    os.path.splitext(file.filename)[1]
+                    evaluationImages = EvaluationImage(photo=file.filename, reply_id=reply.id)
+                    file.save(os.path.join(current_app.config['UPLOAD_PATH'], file.filename))
+                    db.session.add(evaluationImages)
     db.session.commit()
     return jsonify({'event':'success'},search_reply(reply))

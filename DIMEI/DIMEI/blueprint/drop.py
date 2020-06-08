@@ -19,7 +19,7 @@ def delete_d_t(discussion_id):
 @auth.login_required
 def delete_d_s(discussion_id):
     discussion = Discussion.query.get(discussion_id)
-    if discussion is not None and discussion.student_id==g.user.id:
+    if discussion is not None:
         db.session.delete(discussion)
         db.session.commit()
         return jsonify({'event':'success'})
@@ -51,6 +51,16 @@ def delete_h(homework_id):
     homework = Homework.query.get(homework_id)
     if homework is not None:
         db.session.delete(homework)
+        db.session.commit()
+        return jsonify({'event':'success'})
+    return jsonify({'event':'failure'})
+
+@drop_bp.route('/like/<int:like_id>',methods=['DELETE'])
+@auth.login_required
+def delete_ll(like_id):
+    like = Like.query.get(like_id)
+    if like is not None:
+        db.session.delete(like)
         db.session.commit()
         return jsonify({'event':'success'})
     return jsonify({'event':'failure'})
