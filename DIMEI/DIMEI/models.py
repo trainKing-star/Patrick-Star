@@ -3,6 +3,7 @@ from flask import current_app
 from datetime import datetime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from itsdangerous import SignatureExpired,BadSignature
+from passlib.apps import custom_app_context as pwd_context
 
 association_table_grade = db.Table('association',db.Column('grade_id',db.Integer,db.ForeignKey('grade.id')),db.Column('teachar_id',db.Integer,db.ForeignKey('teachar.id')))
 
@@ -79,7 +80,11 @@ class Student(db.Model):
 class School(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String)
+    hash_name = db.Column(db.String)
     grades = db.relationship('Grade',back_populates='school',cascade='all')
+
+    def hashname(self):
+        self.hash_name=pwd_context.encrypt(self.name)
 
 class Grade(db.Model):
     id = db.Column(db.Integer,primary_key=True)

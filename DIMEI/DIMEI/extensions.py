@@ -189,7 +189,8 @@ def search_school(school):
     return {
         'school_id':school.id,
         'name':school.name,
-        'grades':[search_grade_school(grade) for grade in school.grades]
+        'grades':[search_grade_school(grade) for grade in school.grades],
+        'hashname':school.hash_name
     }
 
 

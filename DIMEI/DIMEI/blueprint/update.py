@@ -126,6 +126,7 @@ def update_reply_t(reply_id):
     if evaluationText is not None:
         reply.evaluationText = evaluationText
     evaluationImages = request.files.getlist('evaluationImages')
+    reply.corrected = True
     if evaluationImages is not None:
         if evaluationImages:
             if evaluationImages[0].filename != '':

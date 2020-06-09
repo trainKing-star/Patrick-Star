@@ -90,3 +90,9 @@ def discussion_s(discussion_id):
     if not discussion:
         return jsonify({'event':'no discussion'})
     return jsonify({'event':'success'},search_discussion_s(discussion))
+
+@show_bp.route('/hash',methods=['POST'])
+def hashname():
+    hash_name = request.form.get('hashname')
+    school = School.query.filter_by(hash_name=hash_name).first()
+    return jsonify({'school':school.name})

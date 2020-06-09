@@ -10,9 +10,11 @@ register_bp = Blueprint('register',__name__)
 def school():
     name = request.form.get('name')
     school = School(name=name)
+    school.hashname()
     db.session.add(school)
     db.session.commit()
     return jsonify({'event':'success'},search_school(school))
+
 
 @register_bp.route('/grade',methods=['POST'])
 def grade():
