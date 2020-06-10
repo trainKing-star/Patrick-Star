@@ -33,7 +33,8 @@ def search_grade(grade):
     return {
         'grade_id':grade.id,
         'grade':grade.name,
-        'courses':[search_course_grade(course) for course in grade.courses]
+        'courses':[search_course_grade(course) for course in grade.courses],
+        'students':[search_student(student) for student in grade.students]
     }
 
 
@@ -174,6 +175,7 @@ def search_homework(homework):
 def search_reply(reply):
     return {
         'reply_id':reply.id,
+        'student':reply.student.name,
         'homework_id':reply.homework.id,
         'student_num':reply.student.number,
         'replyText':reply.Text,
